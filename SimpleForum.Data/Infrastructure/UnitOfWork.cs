@@ -30,6 +30,8 @@ namespace SimpleForum.Data.Infrastructure
         public UnitOfWork()
         {
             context = new ForumDbContext();
+
+            Accounts.InitializeRoles(new List<string>() { AccountManager.UserRole });
         }
 
         public void Commit()

@@ -4,16 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleForum.Data.Entities
+namespace SimpleForum.Logic.DTO.User
 {
-    public class UserEntity
+    public class UserRegisterDTO : RegisterBaseDTO
     {
-        public string Id { get; set; }
-
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        public virtual ApplicationUser ApplicationUser { get; set; }
     }
 }

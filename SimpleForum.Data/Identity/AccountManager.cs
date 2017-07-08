@@ -19,7 +19,7 @@ namespace SimpleForum.Data.Identity
 
         public AccountManager(ForumDbContext context)
         {
-            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context) { DisposeContext = false, AutoSaveChanges = false });
+            userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context) { DisposeContext = false });
             roleManager = new RoleManager<ApplicationRole>(new RoleStore<ApplicationRole>(context) { DisposeContext = false });
         }
 
@@ -34,16 +34,39 @@ namespace SimpleForum.Data.Identity
             }
         }
 
-        public bool RegisterUser(ApplicationUser applicationUser)
+        public bool RegisterUser(ApplicationUser applicationUser, string password, ref string errorMessage)
         {
-            bool succeeded = userManager.Create(applicationUser).Succeeded;
+            var result = userManager.Create(applicationUser, password);
+            bool succeeded = result.Succeeded;
 
             if (succeeded)
             {
                 userManager.AddToRole(applicationUser.Id, UserRole);
             }
+            else
+            {
+                errorMessage = result.Errors.FirstOrDefault();
+            }
 
             return succeeded;
+        }
+
+        public bool ValidateCredentials(string email, string login, ref string errorMessage)
+        {
+            bool validated = true;
+
+            if (userManager.FindByEmail(email) != null)
+            {
+                validated = false;
+                errorMessage = "Such email already exists";
+            }
+            else if (userManager.FindByName(login) != null)
+            {
+                validated = false;
+                errorMessage = "Such login already exists";
+            }
+
+            return validated;
         }
     }
 }

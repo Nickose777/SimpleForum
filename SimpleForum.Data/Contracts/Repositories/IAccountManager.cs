@@ -11,6 +11,8 @@ namespace SimpleForum.Data.Contracts.Repositories
     {
         void InitializeRoles(IEnumerable<string> roles);
 
-        bool RegisterUser(ApplicationUser applicationUser);
+        bool RegisterUser(ApplicationUser appUser, string password, ref string errorMessage);
+
+        bool ValidateCredentials(string email, string login, ref string errorMessage);
     }
 }

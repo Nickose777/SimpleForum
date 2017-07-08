@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
+using SimpleForum.Data.Configurations;
 using SimpleForum.Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,15 @@ namespace SimpleForum.Data
 
         public ForumDbContext()
             : base("DefaultConnection") { }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer<ForumDbContext>(new DropCreateDatabaseIfModelChanges<ForumDbContext>());
+
+            modelBuilder.Configurations.Add(new ApplicationUserConfiguration());
+            modelBuilder.Configurations.Add(new UserConfiguration());
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
