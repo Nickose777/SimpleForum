@@ -34,7 +34,7 @@ namespace SimpleForum.Data.Identity
             }
         }
 
-        public bool RegisterUser(ApplicationUser applicationUser, string password, ref string errorMessage)
+        public bool RegisterUser(ApplicationUser applicationUser, string password, ICollection<string> errors)
         {
             var result = userManager.Create(applicationUser, password);
             bool succeeded = result.Succeeded;
@@ -45,25 +45,28 @@ namespace SimpleForum.Data.Identity
             }
             else
             {
-                errorMessage = result.Errors.FirstOrDefault();
+                foreach (string error in result.Errors)
+                {
+                    errors.Add(error);
+                }
             }
 
             return succeeded;
         }
 
-        public bool ValidateCredentials(string email, string login, ref string errorMessage)
+        public bool ValidateCredentials(string email, string login, ICollection<string> errors)
         {
             bool validated = true;
 
             if (userManager.FindByEmail(email) != null)
             {
                 validated = false;
-                errorMessage = "Such email already exists";
+                errors.Add("Such email already exists");
             }
             else if (userManager.FindByName(login) != null)
             {
                 validated = false;
-                errorMessage = "Such login already exists";
+                errors.Add("Such login already exists");
             }
 
             return validated;

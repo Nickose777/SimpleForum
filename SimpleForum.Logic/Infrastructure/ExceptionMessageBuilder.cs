@@ -8,17 +8,13 @@ namespace SimpleForum.Logic.Infrastructure
 {
     static class ExceptionMessageBuilder
     {
-        public static string Build(Exception ex)
+        public static void FillErrors(Exception ex, ICollection<string> errors)
         {
-            StringBuilder builder = new StringBuilder();
-
             do
             {
-                builder.AppendFormat("{0};", ex.Message);
+                errors.Add(ex.Message);
                 ex = ex.InnerException;
             } while (ex != null);
-
-            return builder.ToString();
         }
     }
 }

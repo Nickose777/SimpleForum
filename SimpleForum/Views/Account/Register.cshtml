@@ -12,42 +12,42 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.LabelFor(model => model.FirstName, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.FirstName, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
             @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.LastName, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.LastName, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
             @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Login, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.Login, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
             @Html.TextBoxFor(model => model.Login, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Login, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Email, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.Email, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
             @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.Password, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.Password, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
             @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(model => model.ConfirmPassword, new { @class = "col-md-2 control-label required" })
         <div class="col-md-10">
             @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })

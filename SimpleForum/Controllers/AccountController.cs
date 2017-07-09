@@ -27,9 +27,22 @@ namespace SimpleForum.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet]
         public ActionResult Login()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         [AllowAnonymous]
@@ -43,24 +56,33 @@ namespace SimpleForum.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                UserRegisterDTO user = new UserRegisterDTO
-                {
-                    Email = model.Email,
-                    Password = model.Password,
-                    Login = model.Login,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName
-                };
-                ServiceMessage serviceMessage = service.Register(user);
-                if (serviceMessage.Succeeded)
-                    return RedirectToAction("Index", "Home");
-                else
-                    ModelState.AddModelError("", serviceMessage.ErrorMessage);
+                return View(model);
             }
 
-            return View(model);
+            UserRegisterDTO user = new UserRegisterDTO
+            {
+                Email = model.Email,
+                Password = model.Password,
+                Login = model.Login,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            };
+
+            ServiceMessage serviceMessage = service.Register(user);
+            if (serviceMessage.Succeeded)
+            {
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                foreach (string error in serviceMessage.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return View(model);
+            }
         }
     }
 }

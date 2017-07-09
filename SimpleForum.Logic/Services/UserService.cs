@@ -22,14 +22,14 @@ namespace SimpleForum.Logic.Services
 
         public ServiceMessage Register(UserRegisterDTO user)
         {
-            string errorMessage = "";
-            bool succeeded = Validate(user, ref errorMessage);
+            List<string> errors = new List<string>();
+            bool succeeded = Validate(user, errors);
 
             if (succeeded)
             {
                 try
                 {
-                    succeeded = unitOfWork.Accounts.ValidateCredentials(user.Email, user.Login, ref errorMessage);
+                    succeeded = unitOfWork.Accounts.ValidateCredentials(user.Email, user.Login, errors);
                     if (succeeded)
                     {
                         ApplicationUser appUser = new ApplicationUser
@@ -38,7 +38,7 @@ namespace SimpleForum.Logic.Services
                             Email = user.Email,
                         };
 
-                        succeeded = unitOfWork.Accounts.RegisterUser(appUser, user.Password, ref errorMessage);
+                        succeeded = unitOfWork.Accounts.RegisterUser(appUser, user.Password, errors);
                         if (succeeded)
                         {
                             UserEntity userEntity = new UserEntity
@@ -56,45 +56,45 @@ namespace SimpleForum.Logic.Services
                 catch (Exception ex)
                 {
                     succeeded = false;
-                    errorMessage = ExceptionMessageBuilder.Build(ex);
+                    ExceptionMessageBuilder.FillErrors(ex, errors);
                 }
             }
 
             return new ServiceMessage
             {
                 Succeeded = succeeded,
-                ErrorMessage = errorMessage
+                Errors = errors
             };
         }
 
-        private bool Validate(UserRegisterDTO user, ref string errorMessage)
+        private bool Validate(UserRegisterDTO user, ICollection<string> errors)
         {
             bool validated = true;
 
             if (String.IsNullOrEmpty(user.Email))
             {
                 validated = false;
-                errorMessage = "Incorrect email";
+                errors.Add("Incorrect email");
             }
-            else if (String.IsNullOrEmpty(user.Login))
+            if (String.IsNullOrEmpty(user.Login))
             {
                 validated = false;
-                errorMessage = "Incorrect login";
+                errors.Add("Incorrect login");
             }
-            else if (String.IsNullOrEmpty(user.Password))
+            if (String.IsNullOrEmpty(user.Password))
             {
                 validated = false;
-                errorMessage = "Password required";
+                errors.Add("Password required");
             }
-            else if (String.IsNullOrEmpty(user.FirstName))
+            if (String.IsNullOrEmpty(user.FirstName))
             {
                 validated = false;
-                errorMessage = "First name required";
+                errors.Add("First name required");
             }
-            else if (String.IsNullOrEmpty(user.LastName))
+            if (String.IsNullOrEmpty(user.LastName))
             {
                 validated = false;
-                errorMessage = "Last name required";
+                errors.Add("Last name required");
             }
 
             return validated;
