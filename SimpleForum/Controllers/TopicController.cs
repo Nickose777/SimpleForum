@@ -1,4 +1,5 @@
-﻿using SimpleForum.Logic.Contracts;
+﻿using AutoMapper;
+using SimpleForum.Logic.Contracts;
 using SimpleForum.Logic.DTO.Topic;
 using SimpleForum.Logic.Infrastructure;
 using SimpleForum.Models.Topic;
@@ -39,12 +40,7 @@ namespace SimpleForum.Controllers
                 return View(model);
             }
 
-            TopicCreateDTO topicDTO = new TopicCreateDTO
-            {
-                Title = model.Title,
-                Description = model.Description,
-                CreatorLogin = HttpContext.User.Identity.Name
-            };
+            TopicCreateDTO topicDTO = Mapper.Map<TopicCreateModel, TopicCreateDTO>(model);
 
             ServiceMessage serviceMessage = service.Create(topicDTO);
             if (serviceMessage.Succeeded)
@@ -59,6 +55,20 @@ namespace SimpleForum.Controllers
                 }
                 return View(model);
             }
+        }
+
+        public ActionResult List()
+        {
+            DataServiceMessage<IEnumerable<TopicListDTO>> serviceMessage = service.GetAll();
+            if (serviceMessage.Succeeded)
+            {
+                IEnumerable<TopicListModel> topics = serviceMessage.Data
+                    .Select(topic => Mapper.Map<TopicListDTO, TopicListModel>(topic));
+
+                return View(topics);
+            }
+
+            return View();
         }
     }
 }

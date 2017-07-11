@@ -11,5 +11,7 @@ namespace SimpleForum.Logic.Contracts
     public interface ITopicService : IDisposable
     {
         ServiceMessage Create(TopicCreateDTO topicDTO);
+
+        DataServiceMessage<IEnumerable<TopicListDTO>> GetAll();
     }
 }

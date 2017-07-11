@@ -56,6 +56,43 @@ namespace SimpleForum.Logic.Services
             };
         }
 
+        public DataServiceMessage<IEnumerable<TopicListDTO>> GetAll()
+        {
+            List<string> errors = new List<string>();
+            bool succeeded = true;
+            IEnumerable<TopicListDTO> topicDTOs = null;
+
+            try
+            {
+                IEnumerable<TopicEntity> topicEntities = unitOfWork.Topics.GetAll();
+                topicDTOs = topicEntities.Select(topicEntity =>
+                new TopicListDTO
+                {
+                    Id = topicEntity.Id,
+                    CreatorLogin = topicEntity.Creator.ApplicationUser.UserName,
+                    DateCreated = topicEntity.DateCreated,
+                    DateOfLastMessage = topicEntity.DateOfLastMessage,
+                    Title = topicEntity.Title,
+                    Description = topicEntity.Description,
+                    MessagesCount = topicEntity.Messages.Count
+                })
+                .OrderByDescending(topic => topic.DateCreated)
+                .ToList();
+            }
+            catch (Exception ex)
+            {
+                succeeded = false;
+                ExceptionMessageBuilder.FillErrors(ex, errors);
+            }
+
+            return new DataServiceMessage<IEnumerable<TopicListDTO>>
+            {
+                Errors = errors,
+                Succeeded = succeeded,
+                Data = topicDTOs
+            };
+        }
+
         public void Dispose()
         {
             unitOfWork.Dispose();
