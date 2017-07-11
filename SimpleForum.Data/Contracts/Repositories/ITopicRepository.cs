@@ -7,10 +7,7 @@ using System.Threading.Tasks;
 
 namespace SimpleForum.Data.Contracts.Repositories
 {
-    public interface IUserRepository : IRepository<UserEntity>
+    public interface ITopicRepository : IRepository<TopicEntity>
     {
-        bool Exists(string login);
-
-        UserEntity Get(string login);
     }
 }

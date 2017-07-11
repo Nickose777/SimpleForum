@@ -15,10 +15,14 @@ namespace SimpleForum.NinjectModules
     {
         public override void Load()
         {
-            this.Bind<IUserService>().To<UserService>();
+            this.Bind<IAuthenticationManager>()
+                .ToMethod(c => HttpContext.Current.GetOwinContext().Authentication)
+                .InRequestScope();
+
             this.Bind<IAccountService>().To<AccountService>();
-            this.Bind<IAuthenticationManager>().ToMethod(c => HttpContext.Current.GetOwinContext().Authentication)
-               .InRequestScope();
+            this.Bind<IUserService>().To<UserService>();
+            this.Bind<ITopicService>().To<TopicService>();
+            this.Bind<IMessageService>().To<MessageService>();
         }
     }
 }

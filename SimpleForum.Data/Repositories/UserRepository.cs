@@ -13,5 +13,20 @@ namespace SimpleForum.Data.Repositories
     {
         public UserRepository(ForumDbContext context)
             : base(context) { }
+
+        public override UserEntity Get(int id)
+        {
+            throw new InvalidOperationException("Id of user cannot be integer");
+        }
+
+        public bool Exists(string login)
+        {
+            return context.Users.SingleOrDefault(user => user.UserName == login) != null;
+        }
+
+        public UserEntity Get(string id)
+        {
+            return context.ForumUsers.SingleOrDefault(user => user.ApplicationUser.UserName == id);
+        }
     }
 }

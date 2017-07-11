@@ -68,14 +68,15 @@ namespace SimpleForum.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(LoginModel model)
+        public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace SimpleForum.Controllers
             ServiceMessage serviceMessage = service.SignIn(model.Login, model.Password);
             if (serviceMessage.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToLocal(returnUrl);
             }
             else
             {
@@ -93,6 +94,7 @@ namespace SimpleForum.Controllers
                 {
                     ModelState.AddModelError("", error);
                 }
+
                 return View(model);
             }
         }
@@ -100,6 +102,16 @@ namespace SimpleForum.Controllers
         public ActionResult LogOff()
         {
             service.SignOut();
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
 
             return RedirectToAction("Index", "Home");
         }

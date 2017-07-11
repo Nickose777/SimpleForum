@@ -13,12 +13,24 @@ namespace SimpleForum.Data.Infrastructure
     public class UnitOfWork : IUnitOfWork
     {
         private IUserRepository users;
+        private ITopicRepository topics;
+        private IMessageRepository messages;
 
         public ForumDbContext Context { get; private set; }
 
         public IUserRepository Users
         {
             get { return users ?? (users = new UserRepository(Context)); }
+        }
+
+        public ITopicRepository Topics
+        {
+            get { return topics ?? (topics = new TopicRepository(Context)); }
+        }
+
+        public IMessageRepository Messages
+        {
+            get { return messages ?? (messages = new MessageRepository(Context)); }
         }
 
         public UnitOfWork(ForumDbContext context)

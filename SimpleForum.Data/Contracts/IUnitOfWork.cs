@@ -15,6 +15,10 @@ namespace SimpleForum.Data.Contracts
 
         IUserRepository Users { get; }
 
+        ITopicRepository Topics { get; }
+
+        IMessageRepository Messages { get; }
+
         void Commit();
     }
 }
