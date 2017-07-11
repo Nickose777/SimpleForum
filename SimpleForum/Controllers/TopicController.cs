@@ -22,7 +22,7 @@ namespace SimpleForum.Controllers
 
         public ActionResult Index()
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("List");
         }
 
         [Authorize]
@@ -69,6 +69,20 @@ namespace SimpleForum.Controllers
             }
 
             return View();
+        }
+
+        public ActionResult Details(int id)
+        {
+            DataServiceMessage<TopicDetailsDTO> serviceMessage = service.Get(id);
+            if (serviceMessage.Succeeded)
+            {
+                TopicDetailsModel topic = Mapper.Map<TopicDetailsDTO, TopicDetailsModel>(serviceMessage.Data);
+                return View(topic);
+            }
+            else
+            {
+                return Content(String.Join(Environment.NewLine, serviceMessage.Errors));
+            }
         }
     }
 }

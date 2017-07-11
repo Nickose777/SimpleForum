@@ -13,6 +13,7 @@ namespace SimpleForum.Mappings
             Mapper.Initialize(config =>
             {
                 config.AddProfile<TopicProfile>();
+                config.AddProfile<MessageProfile>();
             });
         }
     }

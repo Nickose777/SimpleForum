@@ -1,0 +1,54 @@
+﻿@using SimpleForum.Models.Topic
+@using SimpleForum.Models.Message
+
+@model SimpleForum.Models.Topic.TopicDetailsModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h1 class="display-1">@Model.Title</h1>
+    <hr />
+    <p>
+        <em>
+            @Model.Description
+        </em>
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.CreatorLogin)
+        @Html.DisplayFor(model => model.CreatorLogin)
+    </p>
+    <p>
+        @Html.DisplayNameFor(model => model.DateCreated)
+        @Html.DisplayFor(model => model.DateCreated)
+    </p>
+    <hr />
+    @foreach (MessageListModel message in Model.Messages)
+    {
+        <div class="row">
+            <div class="col-md-2">
+                <p>
+                    @Html.DisplayNameFor(model => message.DateLastModified)
+                    @Html.DisplayFor(model => message.DateLastModified)
+                </p>
+            </div>
+            <div class="col-md-9">
+                <blockquote class="blockquote">
+                    <p class="mb-0">@message.Text</p>
+                    <footer class="blockquote-footer">
+                        @message.SenderLogin -
+                        <cite title="Source Title">
+                            @Html.DisplayFor(model => message.DateCreated)
+                        </cite>
+                    </footer>
+                </blockquote>
+            </div>
+        </div>
+    }
+</div>
+<p>
+    @Html.ActionLink("Back to topics", "List")
+</p>

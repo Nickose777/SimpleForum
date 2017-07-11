@@ -10,7 +10,7 @@ namespace SimpleForum.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Topic");
         }
     }
 }

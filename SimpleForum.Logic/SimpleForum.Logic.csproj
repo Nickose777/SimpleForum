@@ -92,8 +92,10 @@
     <Compile Include="Contracts\IMessageService.cs" />
     <Compile Include="Contracts\ITopicService.cs" />
     <Compile Include="Contracts\IUserService.cs" />
+    <Compile Include="DTO\Message\MessageListDTO.cs" />
     <Compile Include="DTO\RegisterBaseDTO.cs" />
     <Compile Include="DTO\Topic\TopicCreateDTO.cs" />
+    <Compile Include="DTO\Topic\TopicDetailsDTO.cs" />
     <Compile Include="DTO\Topic\TopicListDTO.cs" />
     <Compile Include="DTO\User\UserRegisterDTO.cs" />
     <Compile Include="Infrastructure\DataServiceMessage.cs" />

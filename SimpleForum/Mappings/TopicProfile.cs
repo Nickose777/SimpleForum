@@ -16,6 +16,7 @@ namespace SimpleForum.Mappings
             this.CreateMap<TopicCreateModel, TopicCreateDTO>()
                 .ForMember(dest => dest.CreatorLogin,
                 opts => opts.MapFrom(src => HttpContext.Current.User.Identity.Name));
+            this.CreateMap<TopicDetailsDTO, TopicDetailsModel>();
         }
     }
 }

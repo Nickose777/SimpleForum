@@ -190,10 +190,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Mappings\AutoMapperConfiguration.cs" />
+    <Compile Include="Mappings\MessageProfile.cs" />
     <Compile Include="Mappings\TopicProfile.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Message\MessageListModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Topic\TopicCreateModel.cs" />
+    <Compile Include="Models\Topic\TopicDetailsModel.cs" />
     <Compile Include="Models\Topic\TopicListModel.cs" />
     <Compile Include="NinjectModules\ServiceModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -239,6 +242,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Topic\Create.cshtml" />
     <Content Include="Views\Topic\List.cshtml" />
+    <Content Include="Views\Topic\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

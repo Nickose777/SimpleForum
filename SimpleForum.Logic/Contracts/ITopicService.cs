@@ -12,6 +12,8 @@ namespace SimpleForum.Logic.Contracts
     {
         ServiceMessage Create(TopicCreateDTO topicDTO);
 
+        DataServiceMessage<TopicDetailsDTO> Get(int id);
+
         DataServiceMessage<IEnumerable<TopicListDTO>> GetAll();
     }
 }

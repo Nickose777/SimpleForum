@@ -1,6 +1,7 @@
 ﻿using SimpleForum.Core.Entities;
 using SimpleForum.Data.Contracts;
 using SimpleForum.Logic.Contracts;
+using SimpleForum.Logic.DTO.Message;
 using SimpleForum.Logic.DTO.Topic;
 using SimpleForum.Logic.Infrastructure;
 using System;
@@ -53,6 +54,57 @@ namespace SimpleForum.Logic.Services
             {
                 Errors = errors,
                 Succeeded = succeeded
+            };
+        }
+
+        public DataServiceMessage<TopicDetailsDTO> Get(int id)
+        {
+            List<string> errors = new List<string>();
+            bool succeeded = true;
+            TopicDetailsDTO topicDTO = null;
+
+            try
+            {
+                TopicEntity topicEntity = unitOfWork.Topics.Get(id);
+                if (topicEntity != null)
+                {
+                    topicDTO = new TopicDetailsDTO
+                    {
+                        Id = id,
+                        CreatorLogin = topicEntity.Creator.ApplicationUser.UserName,
+                        DateCreated = topicEntity.DateCreated,
+                        Description = topicEntity.Description,
+                        Title = topicEntity.Title,
+                        Messages = topicEntity.Messages.Select(messageEntity =>
+                        new MessageListDTO
+                        {
+                            Id = messageEntity.Id,
+                            DateCreated = messageEntity.DateCreated,
+                            DateLastModified = messageEntity.DateLastModified,
+                            Text = messageEntity.Text,
+                            SenderLogin = messageEntity.Sender.ApplicationUser.UserName
+                        })
+                        .OrderBy(message => message.DateCreated)
+                        .ToList()
+                    };
+                }
+                else
+                {
+                    succeeded = false;
+                    errors.Add("Topic was not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                succeeded = false;
+                ExceptionMessageBuilder.FillErrors(ex, errors);
+            }
+
+            return new DataServiceMessage<TopicDetailsDTO>
+            {
+                Errors = errors,
+                Succeeded = succeeded,
+                Data = topicDTO
             };
         }
 
