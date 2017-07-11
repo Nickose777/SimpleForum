@@ -45,7 +45,7 @@ namespace SimpleForum.Controllers
             ServiceMessage serviceMessage = service.Create(topicDTO);
             if (serviceMessage.Succeeded)
             {
-                return RedirectToAction("Index");
+                return RedirectToAction("List");
             }
             else
             {
