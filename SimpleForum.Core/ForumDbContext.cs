@@ -23,6 +23,8 @@ namespace SimpleForum.Core
 
             modelBuilder.Configurations.Add(new ApplicationUserConfiguration());
             modelBuilder.Configurations.Add(new UserConfiguration());
+            modelBuilder.Configurations.Add(new TopicConfiguration());
+            modelBuilder.Configurations.Add(new MessageConfiguration());
 
             base.OnModelCreating(modelBuilder);
         }

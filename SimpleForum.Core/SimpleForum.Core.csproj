@@ -57,15 +57,36 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\ApplicationUserConfiguration.cs" />
+    <Compile Include="Configurations\MessageConfiguration.cs" />
+    <Compile Include="Configurations\TopicConfiguration.cs" />
     <Compile Include="Configurations\UserConfiguration.cs" />
     <Compile Include="Entities\ApplicationRole.cs" />
     <Compile Include="Entities\ApplicationUser.cs" />
+    <Compile Include="Entities\MessageEntity.cs" />
+    <Compile Include="Entities\TopicEntity.cs" />
     <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="ForumDbContext.cs" />
+    <Compile Include="Migrations\201707111234199_InitialCreate.cs" />
+    <Compile Include="Migrations\201707111234199_InitialCreate.Designer.cs">
+      <DependentUpon>201707111234199_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707111324184_Forum db initialize.cs" />
+    <Compile Include="Migrations\201707111324184_Forum db initialize.Designer.cs">
+      <DependentUpon>201707111324184_Forum db initialize.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201707111234199_InitialCreate.resx">
+      <DependentUpon>201707111234199_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707111324184_Forum db initialize.resx">
+      <DependentUpon>201707111324184_Forum db initialize.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

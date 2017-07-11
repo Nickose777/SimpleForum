@@ -14,6 +14,12 @@ namespace SimpleForum.Core.Entities
 
         public string LastName { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public virtual ApplicationUser ApplicationUser { get; set; }
+
+        public virtual ICollection<TopicEntity> Topics { get; set; }
+
+        public virtual ICollection<MessageEntity> Messages { get; set; }
     }
 }
