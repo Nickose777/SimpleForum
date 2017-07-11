@@ -1,5 +1,6 @@
 ﻿using SimpleForum.Data.Contracts.Repositories;
-using SimpleForum.Data.Entities;
+using SimpleForum.Core;
+using SimpleForum.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

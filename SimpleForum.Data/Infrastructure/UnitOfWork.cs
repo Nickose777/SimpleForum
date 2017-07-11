@@ -5,43 +5,35 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SimpleForum.Data.Contracts.Repositories;
-using SimpleForum.Data.Identity;
 using SimpleForum.Data.Repositories;
+using SimpleForum.Core;
 
 namespace SimpleForum.Data.Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly ForumDbContext context;
-
-        private IAccountManager accounts;
         private IUserRepository users;
 
-        public IAccountManager Accounts
-        {
-            get { return accounts ?? (accounts = new AccountManager(context)); }
-        }
+        public ForumDbContext Context { get; private set; }
 
         public IUserRepository Users
         {
-            get { return users ?? (users = new UserRepository(context)); }
+            get { return users ?? (users = new UserRepository(Context)); }
         }
 
-        public UnitOfWork()
+        public UnitOfWork(ForumDbContext context)
         {
-            context = new ForumDbContext();
-
-            Accounts.InitializeRoles(new List<string>() { AccountManager.UserRole });
+            Context = context;
         }
 
         public void Commit()
         {
-            context.SaveChanges();
+            Context.SaveChanges();
         }
 
         public void Dispose()
         {
-            context.Dispose();
+            Context.Dispose();
         }
     }
 }

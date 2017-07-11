@@ -10,6 +10,6 @@ namespace SimpleForum.Logic.Contracts
 {
     public interface IUserService : IDisposable
     {
-        ServiceMessage Register(UserRegisterDTO user);
+
     }
 }

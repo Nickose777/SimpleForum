@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleForum.Logic", "Simple
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleForum.Data", "SimpleForum.Data\SimpleForum.Data.csproj", "{E47F79F2-62A1-4A05-8814-A8D27B082144}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleForum.Core", "SimpleForum.Core\SimpleForum.Core.csproj", "{5269BDDE-D258-42BE-A606-42D3C38ED65F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E47F79F2-62A1-4A05-8814-A8D27B082144}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E47F79F2-62A1-4A05-8814-A8D27B082144}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E47F79F2-62A1-4A05-8814-A8D27B082144}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5269BDDE-D258-42BE-A606-42D3C38ED65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5269BDDE-D258-42BE-A606-42D3C38ED65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5269BDDE-D258-42BE-A606-42D3C38ED65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5269BDDE-D258-42BE-A606-42D3C38ED65F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

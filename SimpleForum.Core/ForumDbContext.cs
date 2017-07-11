@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
-using SimpleForum.Data.Configurations;
-using SimpleForum.Data.Entities;
+using SimpleForum.Core.Configurations;
+using SimpleForum.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleForum.Data
+namespace SimpleForum.Core
 {
     public class ForumDbContext : IdentityDbContext<ApplicationUser>
     {

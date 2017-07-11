@@ -19,30 +19,11 @@ namespace SimpleForum.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly IUserService service;
+        private readonly IAccountService service;
 
-        public AccountController(IUserService service)
+        public AccountController(IAccountService service)
         {
             this.service = service;
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public ActionResult Login()
-        {
-            return View();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        public ActionResult Login(LoginModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
-            return RedirectToAction("Index", "Home");
         }
 
         [AllowAnonymous]
@@ -70,7 +51,7 @@ namespace SimpleForum.Controllers
                 LastName = model.LastName
             };
 
-            ServiceMessage serviceMessage = service.Register(user);
+            ServiceMessage serviceMessage = service.RegisterUser(user);
             if (serviceMessage.Succeeded)
             {
                 return RedirectToAction("Login");
@@ -83,6 +64,44 @@ namespace SimpleForum.Controllers
                 }
                 return View(model);
             }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(LoginModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            ServiceMessage serviceMessage = service.SignIn(model.Login, model.Password);
+            if (serviceMessage.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                foreach (string error in serviceMessage.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
+                return View(model);
+            }
+        }
+
+        public ActionResult LogOff()
+        {
+            service.SignOut();
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }

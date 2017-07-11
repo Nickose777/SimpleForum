@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using SimpleForum.Core;
 using SimpleForum.Data.Contracts;
 using SimpleForum.Data.Infrastructure;
 using System;
@@ -14,6 +15,7 @@ namespace SimpleForum.Logic.NinjectModules
         public override void Load()
         {
             this.Bind<IUnitOfWork>().To<UnitOfWork>();
+            this.Bind<ForumDbContext>().ToSelf();
         }
     }
 }
