@@ -40,25 +40,40 @@
     @foreach (MessageListModel message in Model.Messages)
     {
         <div class="row">
-            <div class="col-md-2">
-                <p>
-                    @Html.DisplayNameFor(model => message.DateLastModified)
-                    @Html.DisplayFor(model => message.DateLastModified)
-                </p>
-            </div>
-            <div class="col-md-9">
+            @if (User.Identity.IsAuthenticated && message.SenderLogin == User.Identity.Name)
+            {
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-info" onclick="displayMessage(@message.Id)" data-toggle="modal" data-target="#editMessageContainer">Edit</button>
+                </div>
+            }
+            <div class="col-md-11">
                 <blockquote class="blockquote">
                     <p class="mb-0">@message.Text</p>
                     <footer class="blockquote-footer">
-                        @message.SenderLogin -
-                        <cite title="Source Title">
-                            @Html.DisplayFor(model => message.DateCreated)
-                        </cite>
+                        @message.SenderLogin - @Html.DisplayFor(model => message.DateCreated)
                     </footer>
                 </blockquote>
             </div>
         </div>
     }
+
+    <div class="modal fade" id="editMessageContainer" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit your message</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
 <p>
     @Html.ActionLink("Back to topics", "List")

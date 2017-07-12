@@ -196,6 +196,7 @@
     <Compile Include="Mappings\TopicProfile.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Message\MessageCreateModel.cs" />
+    <Compile Include="Models\Message\MessageEditModel.cs" />
     <Compile Include="Models\Message\MessageListModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Topic\TopicCreateModel.cs" />
@@ -222,7 +223,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\message\createMessage.js" />
+    <Content Include="Scripts\message\message.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -248,6 +249,7 @@
     <Content Include="Views\Topic\List.cshtml" />
     <Content Include="Views\Topic\Details.cshtml" />
     <Content Include="Views\Message\Create.cshtml" />
+    <Content Include="Views\Message\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

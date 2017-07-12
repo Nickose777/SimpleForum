@@ -73,6 +73,72 @@ namespace SimpleForum.Logic.Services
             };
         }
 
+        public ServiceMessage Edit(MessageEditDTO messageDTO)
+        {
+            List<string> errors = new List<string>();
+            bool succeeded = Validate(messageDTO, errors);
+
+            if (succeeded)
+            {
+                try
+                {
+                    MessageEntity messageEntity = unitOfWork.Messages.Get(messageDTO.Id);
+                    messageEntity.Text = messageDTO.Text;
+                    messageEntity.DateLastModified = DateTime.Now;
+
+                    unitOfWork.Commit();
+                }
+                catch (Exception ex)
+                {
+                    ExceptionMessageBuilder.FillErrors(ex, errors);
+                    succeeded = false;
+                }
+            }
+
+            return new ServiceMessage
+            {
+                Errors = errors,
+                Succeeded = succeeded
+            };
+        }
+
+        public DataServiceMessage<MessageEditDTO> Get(int id)
+        {
+            List<string> errors = new List<string>();
+            bool succeeded = true;
+            MessageEditDTO messageDTO = null;
+
+            try
+            {
+                MessageEntity messageEntity = unitOfWork.Messages.Get(id);
+                if (messageEntity != null)
+                {
+                    messageDTO = new MessageEditDTO
+                    {
+                        Id = id,
+                        Text = messageEntity.Text
+                    };
+                }
+                else
+                {
+                    succeeded = false;
+                    errors.Add("Message not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                ExceptionMessageBuilder.FillErrors(ex, errors);
+                succeeded = false;
+            }
+
+            return new DataServiceMessage<MessageEditDTO>
+            {
+                Errors = errors,
+                Succeeded = succeeded,
+                Data = messageDTO
+            };
+        }
+
         public void Dispose()
         {
             unitOfWork.Dispose();
@@ -91,6 +157,24 @@ namespace SimpleForum.Logic.Services
             {
                 validated = false;
                 errors.Add("Message must have an author");
+            }
+
+            return validated;
+        }
+
+        private bool Validate(MessageEditDTO messageDTO, ICollection<string> errors)
+        {
+            bool validated = true;
+
+            if (String.IsNullOrEmpty(messageDTO.Text))
+            {
+                validated = false;
+                errors.Add("Text cannot be empty");
+            }
+            if (messageDTO.Text.Length > 200)
+            {
+                validated = false;
+                errors.Add("Text cannot contain more than 200 characters");
             }
 
             return validated;

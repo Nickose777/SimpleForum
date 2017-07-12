@@ -55,5 +55,64 @@ namespace SimpleForum.Controllers
 
             return Json(new { success = success, html = html });
         }
+
+        [HttpGet]
+        [Authorize]
+        public ActionResult Get(int id)
+        {
+            bool success = true;
+            string html = "";
+
+            DataServiceMessage<MessageEditDTO> serviceMessage = service.Get(id);
+            if (serviceMessage.Succeeded)
+            {
+                MessageEditModel model = Mapper.Map<MessageEditDTO, MessageEditModel>(serviceMessage.Data);
+                
+                html = RenderHelper.PartialView(this, "~/Views/Message/Edit.cshtml", model);
+            }
+            else
+            {
+                success = false;
+                foreach (string error in serviceMessage.Errors)
+                {
+                    html += String.Format("<p>{0}</p>", error);
+                }
+            }
+
+            return Json(new { success = success, html = html }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Edit(MessageEditModel model)
+        {
+            bool success = true;
+            string html = "";
+
+            if (!ModelState.IsValid)
+            {
+                success = false;
+            }
+            else
+            {
+                MessageEditDTO messageDTO = Mapper.Map<MessageEditModel, MessageEditDTO>(model);
+                ServiceMessage serviceMessage = service.Edit(messageDTO);
+                if (!serviceMessage.Succeeded)
+                {
+                    success = false;
+                    foreach (string error in serviceMessage.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+            }
+
+            if (!success)
+            {
+                html = RenderHelper.PartialView(this, "~/Views/Message/Edit.cshtml", model);
+            }
+
+            return Json(new { success = success, html = html });
+        }
     }
 }

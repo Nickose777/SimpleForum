@@ -11,5 +11,9 @@ namespace SimpleForum.Logic.Contracts
     public interface IMessageService : IDisposable
     {
         ServiceMessage Create(MessageCreateDTO messageDTO);
+
+        ServiceMessage Edit(MessageEditDTO messageDTO);
+
+        DataServiceMessage<MessageEditDTO> Get(int id);
     }
 }

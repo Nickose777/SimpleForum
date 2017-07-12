@@ -15,7 +15,9 @@ namespace SimpleForum.Mappings
             this.CreateMap<MessageCreateModel, MessageCreateDTO>()
                 .ForMember(dest => dest.SenderLogin,
                 opts => opts.MapFrom(src => HttpContext.Current.User.Identity.Name));
+
             this.CreateMap<MessageListDTO, MessageListModel>();
+            this.CreateMap<MessageEditDTO, MessageEditModel>().ReverseMap();
         }
     }
 }
