@@ -160,15 +160,23 @@ namespace SimpleForum.Logic.Services
         {
             bool validated = true;
 
-            if (userManager.FindByEmail(email) != null)
+            try
             {
-                validated = false;
-                errors.Add("Such email already exists");
+                if (userManager.FindByEmail(email) != null)
+                {
+                    validated = false;
+                    errors.Add("Such email already exists");
+                }
+                else if (userManager.FindByName(login) != null)
+                {
+                    validated = false;
+                    errors.Add("Such login already exists");
+                }
             }
-            else if (userManager.FindByName(login) != null)
+            catch (Exception ex)
             {
+                ExceptionMessageBuilder.FillErrors(ex, errors);
                 validated = false;
-                errors.Add("Such login already exists");
             }
 
             return validated;

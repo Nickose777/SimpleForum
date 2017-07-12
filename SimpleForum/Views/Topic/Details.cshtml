@@ -26,6 +26,17 @@
         @Html.DisplayFor(model => model.DateCreated)
     </p>
     <hr />
+    @if (User.Identity.IsAuthenticated)
+    {
+        <button data-toggle="collapse" data-target="#messageContainer" class="btn btn-primary">Leave a message</button>
+        <div id="messageContainer" class="collapse">
+            @{Html.RenderPartial("~/Views/Message/Create.cshtml", new MessageCreateModel { TopicId = Model.Id });}
+        </div>
+    }
+    else
+    {
+        @Html.ActionLink("Leave a message", "Login", "Account", new { returnUrl = Url.Action(ViewContext.RouteData.Values["action"].ToString(), ViewContext.RouteData.Values["controller"].ToString()) }, new { @class = "btn btn-primary" })
+    }
     @foreach (MessageListModel message in Model.Messages)
     {
         <div class="row">

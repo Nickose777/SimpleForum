@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SimpleForum.Logic.DTO.Message;
+using SimpleForum.Logic.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace SimpleForum.Logic.Contracts
 {
     public interface IMessageService : IDisposable
     {
+        ServiceMessage Create(MessageCreateDTO messageDTO);
     }
 }

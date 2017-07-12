@@ -185,14 +185,17 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\RenderHelper.cs" />
     <Compile Include="Mappings\AutoMapperConfiguration.cs" />
     <Compile Include="Mappings\MessageProfile.cs" />
     <Compile Include="Mappings\TopicProfile.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\Message\MessageCreateModel.cs" />
     <Compile Include="Models\Message\MessageListModel.cs" />
     <Compile Include="Models\RegisterModel.cs" />
     <Compile Include="Models\Topic\TopicCreateModel.cs" />
@@ -219,6 +222,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\message\createMessage.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -243,6 +247,7 @@
     <Content Include="Views\Topic\Create.cshtml" />
     <Content Include="Views\Topic\List.cshtml" />
     <Content Include="Views\Topic\Details.cshtml" />
+    <Content Include="Views\Message\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

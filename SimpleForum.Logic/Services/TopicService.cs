@@ -84,7 +84,7 @@ namespace SimpleForum.Logic.Services
                             Text = messageEntity.Text,
                             SenderLogin = messageEntity.Sender.ApplicationUser.UserName
                         })
-                        .OrderBy(message => message.DateCreated)
+                        .OrderByDescending(message => message.DateCreated)
                         .ToList()
                     };
                 }
