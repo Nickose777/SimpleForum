@@ -82,21 +82,19 @@ namespace SimpleForum.Logic.Services
 
         public ServiceMessage SignIn(string login, string password)
         {
-            List<string> errors = null;
-            bool succeeded = true;
+            List<string> errors = new List<string>();
+            bool succeeded = CanSignIn(login, errors);
 
-            signInManager.AuthenticationManager.SignOut();
-            SignInStatus status = signInManager.PasswordSignIn(login, password, true, false);
-            switch (status)
+            if (succeeded)
             {
-                case SignInStatus.Success:
-                    succeeded = true;
-                    break;
-                case SignInStatus.Failure:
-                default:
+                signInManager.AuthenticationManager.SignOut();
+
+                SignInStatus status = signInManager.PasswordSignIn(login, password, true, false);
+                if (status != SignInStatus.Success)
+                {
                     succeeded = false;
-                    errors = new List<string> { "Invalid login or password" };
-                    break;
+                    errors.Add("Invalid login or password");
+                }
             }
 
             return new ServiceMessage
@@ -109,6 +107,11 @@ namespace SimpleForum.Logic.Services
         public void SignOut()
         {
             signInManager.AuthenticationManager.SignOut();
+        }
+
+        public void Dispose()
+        {
+            unitOfWork.Dispose();
         }
 
         private void InitializeRoles(params string[] roles)
@@ -167,7 +170,7 @@ namespace SimpleForum.Logic.Services
                     validated = false;
                     errors.Add("Such email already exists");
                 }
-                else if (userManager.FindByName(login) != null)
+                if (userManager.FindByName(login) != null)
                 {
                     validated = false;
                     errors.Add("Such login already exists");
@@ -202,9 +205,33 @@ namespace SimpleForum.Logic.Services
             return succeeded;
         }
 
-        public void Dispose()
+        private bool CanSignIn(string login, ICollection<string> errors)
         {
-            unitOfWork.Dispose();
+            bool canSignIn = true;
+
+            try
+            {
+                ApplicationUser appUser = userManager.FindByName(login);
+                if (appUser != null)
+                {
+                    if (appUser.User.IsDeleted)
+                    {
+                        canSignIn = false;
+                        errors.Add("Account deleted");
+                    }
+                }
+                else
+                {
+                    canSignIn = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                canSignIn = false;
+                ExceptionMessageBuilder.FillErrors(ex, errors);
+            }
+
+            return canSignIn;
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SimpleForum.Mappings;
 
 namespace SimpleForum.Controllers
 {
@@ -20,11 +21,6 @@ namespace SimpleForum.Controllers
             this.service = service;
         }
 
-        public ActionResult Index()
-        {
-            return RedirectToAction("List");
-        }
-
         [Authorize]
         public ActionResult Create()
         {
@@ -35,40 +31,45 @@ namespace SimpleForum.Controllers
         [Authorize]
         public ActionResult Create(TopicCreateModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            bool ok = true;
 
-            TopicCreateDTO topicDTO = Mapper.Map<TopicCreateModel, TopicCreateDTO>(model);
-
-            ServiceMessage serviceMessage = service.Create(topicDTO);
-            if (serviceMessage.Succeeded)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("List");
+                TopicCreateDTO topicDTO = Mapper.Map<TopicCreateModel, TopicCreateDTO>(model);
+
+                ServiceMessage serviceMessage = service.Create(topicDTO);
+                if (!serviceMessage.Succeeded)
+                {
+                    foreach (string error in serviceMessage.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                    ok = false;
+                }
             }
             else
             {
-                foreach (string error in serviceMessage.Errors)
-                {
-                    ModelState.AddModelError("", error);
-                }
-                return View(model);
+                ok = false;
             }
+
+            return ok ? RedirectToAction("List") as ActionResult : View(model) as ActionResult;
         }
 
         public ActionResult List()
         {
+            IEnumerable<TopicListModel> topics;
+
             DataServiceMessage<IEnumerable<TopicListDTO>> serviceMessage = service.GetAll();
             if (serviceMessage.Succeeded)
             {
-                IEnumerable<TopicListModel> topics = serviceMessage.Data
-                    .Select(topic => Mapper.Map<TopicListDTO, TopicListModel>(topic));
-
-                return View(topics);
+                topics = Mapper.Instance.MapAll<TopicListDTO, TopicListModel>(serviceMessage.Data);
+            }
+            else
+            {
+                topics = new List<TopicListModel>();
             }
 
-            return View();
+            return View(topics);
         }
 
         public ActionResult Details(int id)

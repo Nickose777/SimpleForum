@@ -13,7 +13,7 @@ namespace SimpleForum.Logic.Identity
 {
     class SignInManager : SignInManager<ApplicationUser, string>
     {
-        public SignInManager(UserManager<ApplicationUser, string> userManager, IAuthenticationManager authenticationManager)
+        public SignInManager(UserManager userManager, IAuthenticationManager authenticationManager)
             : base(userManager, authenticationManager) { }
     }
 }

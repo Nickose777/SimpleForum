@@ -150,7 +150,7 @@ namespace SimpleForum.Logic.Services
             unitOfWork.Dispose();
         }
 
-        private bool Validate(TopicCreateDTO topic, List<string> errors)
+        private bool Validate(TopicCreateDTO topic, ICollection<string> errors)
         {
             bool validated = true;
 
@@ -164,6 +164,7 @@ namespace SimpleForum.Logic.Services
                 validated = false;
                 errors.Add("User with such login was not found");
             }
+
             if (String.IsNullOrEmpty(topic.Title))
             {
                 validated = false;
@@ -174,6 +175,7 @@ namespace SimpleForum.Logic.Services
                 validated = false;
                 errors.Add("Title must be less than 50 characters");
             }
+
             if (String.IsNullOrEmpty(topic.Description))
             {
                 validated = false;
