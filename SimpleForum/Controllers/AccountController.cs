@@ -103,17 +103,12 @@ namespace SimpleForum.Controllers
         {
             service.SignOut();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("List", "Topic");
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-
-            return RedirectToAction("Index", "Home");
+            return Url.IsLocalUrl(returnUrl) ? Redirect(returnUrl) as ActionResult : RedirectToAction("List", "Topic");
         }
     }
 }

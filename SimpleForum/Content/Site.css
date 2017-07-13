@@ -28,3 +28,10 @@ textarea {
     font-weight: bold;
     color: red;
 }
+
+.input-fill {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    width: 100%;
+}

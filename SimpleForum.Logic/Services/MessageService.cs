@@ -43,6 +43,7 @@ namespace SimpleForum.Logic.Services
                                 DateCreated = DateTime.Now,
                                 DateLastModified = DateTime.Now
                             };
+                            topicEntity.DateOfLastMessage = DateTime.Now;
 
                             unitOfWork.Messages.Add(messageEntity);
                             unitOfWork.Commit();
@@ -85,6 +86,7 @@ namespace SimpleForum.Logic.Services
                     MessageEntity messageEntity = unitOfWork.Messages.Get(messageDTO.Id);
                     messageEntity.Text = messageDTO.Text;
                     messageEntity.DateLastModified = DateTime.Now;
+                    messageEntity.Topic.DateOfLastMessage = DateTime.Now;
 
                     unitOfWork.Commit();
                 }

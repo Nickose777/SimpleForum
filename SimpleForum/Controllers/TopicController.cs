@@ -52,7 +52,7 @@ namespace SimpleForum.Controllers
                 ok = false;
             }
 
-            return ok ? RedirectToAction("List") as ActionResult : View(model) as ActionResult;
+            return ok ? RedirectToAction("List") as ActionResult : View(model);
         }
 
         public ActionResult List()

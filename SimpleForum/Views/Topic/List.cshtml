@@ -4,60 +4,30 @@
 @{
     ViewBag.Title = "List";
 }
-
-<h2>List</h2>
+<h1 class="h1">Topics</h1>
+<hr />
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create new topic", "Create", new { }, new { @class = "btn btn-primary" })
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CreatorLogin)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateCreated)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateOfLastMessage)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MessagesCount)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (TopicListModel topic in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(model => topic.CreatorLogin)
-        </td>
-        <td>
-            @Html.DisplayFor(model => topic.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(model => topic.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(model => topic.DateCreated)
-        </td>
-        <td>
-            @Html.DisplayFor(model => topic.DateOfLastMessage)
-        </td>
-        <td>
-            @Html.DisplayFor(model => topic.MessagesCount)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id = topic.Id })
-        </td>
-    </tr>
-}
-
-</table>
+<ul class="list-group">
+    @foreach (TopicListModel topic in Model)
+    {
+        <li class="list-group-item">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="h2">
+                        @Html.ActionLink(topic.Title, "Details", new { id = topic.Id })
+                    </h2>
+                    <h4 class="h4">@topic.Description</h4>
+                </div>
+                <div class="col-md-3 pull-right">
+                    <p>@Html.DisplayNameFor(model => model.CreatorLogin): @Html.DisplayFor(model => topic.CreatorLogin)</p>
+                    <p>@Html.DisplayNameFor(model => model.DateCreated): @Html.DisplayFor(model => topic.DateCreated)</p>
+                    <p>@Html.DisplayNameFor(model => model.DateOfLastMessage): @Html.DisplayFor(model => topic.DateOfLastMessage)</p>
+                    <p>@Html.DisplayNameFor(model => model.MessagesCount): @Html.DisplayFor(model => topic.MessagesCount)</p>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
